@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Quizzer</string>
+    <string name="ques">Is the following number prime?</string>
+    <string name="score">cool</string>
+    <string name="scoreText">SCORE:   </string>
+    <string name="lifeText">LIFE:</string>
+    <string name="life">life</string>
+    <string name="question">If you can read this, there is some issue in the app</string>
+    <string name="trueText">True</string>
+    <string name="falseText">False</string>
+    <string name="nextText">Next</string>
+</resources>
