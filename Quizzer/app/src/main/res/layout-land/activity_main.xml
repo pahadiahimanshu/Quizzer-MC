@@ -11,8 +11,8 @@
     android:orientation="vertical"
     tools:context="com.example.himanshu.quizzer.MainActivity">
 
-    <LinearLayout
-    android:layout_width="wrap_content"
+    <RelativeLayout
+    android:layout_width="502dp"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     >
@@ -29,28 +29,48 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/score"
-        android:layout_marginBottom="20dp"/>
-</LinearLayout>
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        >
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/scoreText" />
+
         <TextView
             android:id="@+id/lifetext"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="@string/lifeText"
-            android:layout_marginBottom="20dp"/>
+            android:layout_gravity="right"
+            android:layout_alignParentTop="true"
+            android:layout_toStartOf="@+id/life" />
         <TextView
             android:id="@+id/life"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="@string/life"
-            android:layout_marginBottom="20dp"/>
-    </LinearLayout>
+            android:layout_gravity="right"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true" />
+</RelativeLayout>
+    <!--<LinearLayout-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="center"-->
+        <!--&gt;-->
+        <!--<TextView-->
+            <!--android:id="@+id/lifetext"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:textAppearance="?android:attr/textAppearanceLarge"-->
+            <!--android:text="@string/lifeText"-->
+            <!--android:layout_marginBottom="20dp"/>-->
+        <!--<TextView-->
+            <!--android:id="@+id/life"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:textAppearance="?android:attr/textAppearanceLarge"-->
+            <!--android:text="@string/life"-->
+            <!--android:layout_marginBottom="20dp"/>-->
+    <!--</LinearLayout>-->
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -71,7 +91,7 @@
         android:layout_marginBottom="10dp"
         android:textAlignment="center"
         android:text="@string/question"/>
-    
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -90,7 +110,7 @@
 
 
     </LinearLayout>
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
@@ -98,25 +118,32 @@
             android:id="@+id/NextButton"
             android:text="@string/nextText"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal">
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
         <Button
             android:id="@+id/HintButton"
             android:text="@string/hintText"
 
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true" />
         <Button
             android:id="@+id/CheatButton"
             android:text="@string/cheatText"
 
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal">
+
     </LinearLayout>
 
 </LinearLayout>

@@ -1,6 +1,7 @@
 package com.example.himanshu.quizzer;
 
 import android.content.Context;
+import android.content.Intent;
 import android.nfc.Tag;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,16 +18,32 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
-    static final String SCORE = "score";
-    static final String LIFE = "life";
-    static final String QUES = "question";
+    public final static String HINT = "hint";
+    public final static String CHEAT = "cheat";
+    public static final String SCORE = "score";
+    public static final String LIFE = "life";
+    public static final String QUES = "question";
+    public static final String ANS = "ans";
+//    public static final String CHEAT = "cheat";
+//    public static final String HINT = "hint";
+    public static final int cheatAct = 1;
+    public static final int hintAct = 2;
+    int aloo;
 
     private Button mTrueButton;
     private Button mFalseButton;
     private Button mNextButton;
+    private Button mHintButton;
+    private Button mCheatButton;
+
+
     private TextView mscore;
     private TextView mtextViewer;
     private TextView mlife;
+
+    public int cheat;
+    public int hint;
+
     private int score;
     private int life;
     private int prime;
@@ -39,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
 
     void setques()
     {
+        cheat = 0;
         Random rand = new Random();
         prime = rand.nextInt(1000) + 1;
         int all = rand.nextInt(500) + 1;
@@ -72,6 +90,21 @@ public class MainActivity extends AppCompatActivity {
         mtextViewer.setText(a);
     }
 
+    int checkAnswer()
+    {
+        int i = 0;
+        int ans = 0; //false
+        for(i = 0; i < primes.length; i++)
+        {
+            if(primes[i] == prime)
+            {
+                ans = 1;    // true its a prime number
+                break;
+            }
+        }
+        return ans;
+    }
+
 
     private static final String TAG = "QuizActivity";
     int checkCorrect(Boolean a)
@@ -88,7 +121,21 @@ public class MainActivity extends AppCompatActivity {
         }
         if(pri == a)
         {
-            score++;
+            if(cheat == 0)
+            {
+                score++;
+            }
+            else
+            {
+                String msg = "You have used the cheat.";
+                Toast.makeText(context,msg,duration).show();
+            }
+            if(hint == 1)
+            {
+                String msg = "You have used the hint.";
+                hint = 0;
+                Toast.makeText(context,msg,duration).show();
+            }
             return 1;   //he's right
         }
         else
@@ -109,19 +156,105 @@ public class MainActivity extends AppCompatActivity {
             return 0;   // he's wrong
         }
     }
+    public void openHint() {
+        int ans = checkAnswer();
+        Intent intent = new Intent(this, HintActivity.class);
+        intent.putExtra(HINT,hint);
+
+        String a = Integer.toString(score);
+        intent.putExtra(SCORE,a);
+
+        a = Integer.toString(cheat);
+        intent.putExtra(CHEAT,a);
+
+        a = Integer.toString(life);
+        intent.putExtra(LIFE,a);
+
+        a = Integer.toString(prime);
+        intent.putExtra(QUES,a);
+
+        a = Integer.toString(ans);
+        intent.putExtra(ANS,a);
+        startActivityForResult(intent,hintAct);
+    }
+
+    public void openCheat()
+    {
+        int ans = checkAnswer();
+        Intent intent = new Intent(this, CheatActivity.class);
+        intent.putExtra(HINT,hint);
+
+        String a = Integer.toString(score);
+        intent.putExtra(SCORE,a);
+
+        a = Integer.toString(cheat);
+        intent.putExtra(CHEAT,a);
+
+        a = Integer.toString(life);
+        intent.putExtra(LIFE,a);
+
+        a = Integer.toString(prime);
+        intent.putExtra(QUES,a);
+
+        a = Integer.toString(ans);
+        intent.putExtra(ANS,a);
+        startActivityForResult(intent,cheatAct);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+        switch(requestCode)
+        {
+            case cheatAct:
+                if(resultCode == RESULT_OK) {
+                    Log.d(TAG, "lets take something");
+                    //                if(cheat == 1) {
+                    Log.d(TAG, "RESULT OKAY!!!");
+                    String usedCheat;
+                    usedCheat = data.getStringExtra(CHEAT);
+
+                    cheat = Integer.parseInt(usedCheat);
+                    Log.d(TAG, "you used the cheat -----" + cheat);
+                    //                }
+                }
+            break;
+
+            case hintAct:
+                if(resultCode == RESULT_OK) {
+
+                    String usedHint;
+                    usedHint = data.getStringExtra(HINT);
+
+                    hint = Integer.parseInt(usedHint);
+                    Log.d(TAG, "you used the cheat -----" + hint);
+                    //                }
+                }
+                break;
+
+            default:
+
+
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        hint = 0;
+        cheat = 0;
+
         mTrueButton = (Button) findViewById(R.id.TrueButton);
         mFalseButton = (Button) findViewById(R.id.FalseButton);
         mNextButton = (Button) findViewById(R.id.NextButton);
+        mHintButton = (Button) findViewById(R.id.HintButton);
+        mCheatButton = (Button) findViewById(R.id.CheatButton);
+
         mtextViewer = (TextView) findViewById(R.id.textViewer);
         mscore  = (TextView) findViewById(R.id.score);
         mlife = (TextView) findViewById(R.id.life);
-
 
         // for toast
         context = getApplicationContext();
@@ -134,7 +267,20 @@ public class MainActivity extends AppCompatActivity {
             score = 0;
             life = 3;
         }
+        mHintButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openHint();
 
+            }
+        });
+
+        mCheatButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openCheat();
+            }
+        });
         mTrueButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
@@ -194,6 +340,8 @@ public class MainActivity extends AppCompatActivity {
         savedInstanceState.putInt(SCORE,score);
         savedInstanceState.putInt(LIFE,life);
         savedInstanceState.putInt(QUES,prime);
+        savedInstanceState.putInt(CHEAT,cheat);
+        savedInstanceState.putInt(HINT,hint);
 
         super.onSaveInstanceState(savedInstanceState);
 
@@ -209,6 +357,8 @@ public class MainActivity extends AppCompatActivity {
             prime = savedInstanceState.getInt(QUES);
             score = savedInstanceState.getInt(SCORE);
             life = savedInstanceState.getInt(LIFE);
+            cheat = savedInstanceState.getInt(CHEAT);
+            hint = savedInstanceState.getInt(HINT);
 
 
         }
